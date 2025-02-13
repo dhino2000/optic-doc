@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MicrogliaTracking Tutorial &mdash; OPTIC 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Suite2pROITracking Tutorial" href="Suite2pROITracking.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OPTIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">How To Install</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Applications:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Suite2pROICuration.html">Suite2pROICuration Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Suite2pROITracking.html">Suite2pROITracking Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">MicrogliaTracking Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-fall-mat-file">Load Fall.mat file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-interface">Application Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#view-section">View Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatic-roi-extraction-with-cellpose">Automatic ROI Extraction with Cellpose</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#table-section">Table Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-registration">Image Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatic-roi-matching">Automatic ROI Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roi-manager">ROI Manager</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OPTIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">MicrogliaTracking Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/MicrogliaTracking.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="microgliatracking-tutorial">
+<h1>MicrogliaTracking Tutorial<a class="headerlink" href="#microgliatracking-tutorial" title="Link to this heading"></a></h1>
+<img alt="Microglia Tracking" src="_images/microglia_tracking.png" />
+<p><strong>Microglia Tracking</strong> is a specialized tool developed for detecting microglial ROIs from XYCT image stacks and analyzing their dynamics through time-series tracking. This tool implements <strong>Cellpose</strong> for high-precision ROI detection and offers seamless integration with <strong>ImageJ</strong>, enabling comprehensive downstream analyses of microglial dynamics.</p>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Load Microglia XYCT stack tif file</strong></p></li>
+<li><p><strong>Image registration</strong> (see <span class="xref std std-ref">image-registration</span>)</p></li>
+<li><p><strong>Draw ROIs, Extract ROIs with Cellpose</strong> (see <span class="xref std std-ref">view-section</span>)</p></li>
+<li><p><strong>Auto ROI tracking</strong> (see <span class="xref std std-ref">automatic-roi-matching</span>)</p></li>
+<li><p><strong>Check ROI tracking manually</strong></p></li>
+<li><p><strong>Save MicrogliaTracking.mat file</strong></p></li>
+</ol>
+</section>
+<section id="input">
+<h2>Input<a class="headerlink" href="#input" title="Link to this heading"></a></h2>
+<p>The input tif stack file format should be <strong>XYCT</strong>, and the number of channels must be less than 3. If you have an XYZCT tif stack, please convert it to XYCT with z-axis projection.</p>
+<ul class="simple">
+<li><p><strong>(Required):</strong> XYCT tif stack</p></li>
+</ul>
+</section>
+<section id="output">
+<h2>Output<a class="headerlink" href="#output" title="Link to this heading"></a></h2>
+<p>The result of ROI tracking is exported as <strong>MicrogliaTracking~.mat</strong>:</p>
+<ul class="simple">
+<li><p><strong>MicrogliaTracking_{name_of_the_tif_file}.mat</strong></p></li>
+</ul>
+</section>
+<section id="load-fall-mat-file">
+<h2>Load Fall.mat file<a class="headerlink" href="#load-fall-mat-file" title="Link to this heading"></a></h2>
+<img alt="MicrogliaTracking Load" src="_images/microglia_tracking_load.png" />
+<p><strong>tiff stack (XYCT) file path (Required):</strong></p>
+<blockquote>
+<div><p>Push the “browse” button and choose the microglia tif file. The file must contain 2 or more frames.</p>
+</div></blockquote>
+</section>
+<section id="application-interface">
+<h2>Application Interface<a class="headerlink" href="#application-interface" title="Link to this heading"></a></h2>
+<img alt="MicrogliaTracking Interface" src="_images/microglia_tracking_captioned.png" />
+<p><strong>MicrogliaTracking</strong> consists of two major sections, <strong>primary (pri)</strong> and <strong>secondary (sec)</strong>, each containing two sub-sections: <strong>View</strong> and <strong>Table</strong>. The primary and secondary sections have different functionalities and display distinct content.</p>
+</section>
+<section id="view-section">
+<h2>View Section<a class="headerlink" href="#view-section" title="Link to this heading"></a></h2>
+<p><strong>View</strong></p>
+<p>Displays ROIs from the table with the selected ROI highlighted.
+If <strong>Match_Cell_ID</strong> is filled, a white line is drawn between the primary <strong>Cell_ID</strong> ROI and the secondary <strong>Match_Cell_ID</strong> ROI.
+The opacity of the white line can be adjusted with the <strong>Opacity of ROI pair</strong> slider.</p>
+<p><strong>Key operations:</strong></p>
+<ul class="simple">
+<li><p><strong>Left mouse click:</strong> Choose the closest ROI.</p></li>
+<li><p><strong>Right mouse click (only in pri view):</strong> Choose the closest ROI from the secondary view.</p></li>
+<li><p><strong>Ctrl + mouse wheel:</strong> Zoom in/out.</p></li>
+<li><p><strong>Middle mouse drag:</strong> Pan.</p></li>
+<li><p><strong>R:</strong> Reset view zoom.</p></li>
+</ul>
+<p><strong>T slider:</strong> Switch time point (the primary time point is always earlier than the secondary).</p>
+<p><strong>Image Contrast:</strong></p>
+<ul class="simple">
+<li><p><strong>Green:</strong> Background image contrast of primary channel (e.g. microglia).</p></li>
+<li><p><strong>Red:</strong> Background image contrast of secondary channel (e.g. vessel).</p></li>
+<li><p><strong>Blue:</strong> Secondary ROIs.</p></li>
+</ul>
+<p><strong>ROI Opacity:</strong> Adjust the opacity of all and the selected ROI via sliders.</p>
+<img alt="MicrogliaTracking View Section" src="_images/microglia_tracking_view.png" />
+<p><strong>ROI edit mode</strong></p>
+<p>ROIs can be added, removed, and edited.</p>
+<ul class="simple">
+<li><p><strong>Add ROI:</strong> Draw a new ROI with mouse drag and register it by pressing the space key.</p></li>
+<li><p><strong>Remove ROI:</strong> Remove the selected ROI.</p></li>
+<li><p><strong>Edit ROI:</strong> Edit the selected ROI.</p></li>
+<li><p><strong>Pen Radius:</strong> Adjust the pen size.</p></li>
+<li><p><strong>ROI Opacity:</strong> Adjust the opacity of the ROI being edited.</p></li>
+<li><p><strong>Key operations:</strong></p>
+<ul>
+<li><p><strong>Left mouse drag:</strong> Draw ROI.</p></li>
+<li><p><strong>Right mouse drag:</strong> Erase ROI.</p></li>
+<li><p><strong>Space key:</strong> Exit ROI edit mode.</p></li>
+</ul>
+</li>
+</ul>
+<img alt="ROI Edit Mode (animated)" src="_images/microglia_tracking_roi_edit.gif" />
+</section>
+<section id="automatic-roi-extraction-with-cellpose">
+<h2>Automatic ROI Extraction with Cellpose<a class="headerlink" href="#automatic-roi-extraction-with-cellpose" title="Link to this heading"></a></h2>
+<p><strong>Automatic ROI Extraction with Cellpose:</strong>
+- Placeholder: “c”
+- (No image provided)</p>
+</section>
+<section id="table-section">
+<h2>Table Section<a class="headerlink" href="#table-section" title="Link to this heading"></a></h2>
+<p><strong>Cell_ID:</strong>
+- The table is initially empty when the TIFF stack is loaded.
+- Cell_IDs are added either by manually drawing ROIs using “Add ROI” or by loading the <strong>seg.npy</strong> file generated by Cellpose.
+- ROIs are stored for each time plane, and the table content updates accordingly when the T slider is adjusted.
+- (No image provided)</p>
+<p><strong>Cell_ID_Match:</strong>
+- The primary table includes an additional column, <strong>Cell_ID_Match</strong>, which shows the secondary ROI ID matched to the primary ROI.
+- Initially blank; when a number is filled, a white line is drawn in the View indicating the match.
+- The number must be an integer between 0 and the maximum ROI number in the secondary data.
+- When an ROI is removed using “Remove ROI”, its corresponding <strong>Cell_ID_Match</strong> is also removed.</p>
+<img alt="MicrogliaTracking Table Section" src="_images/microglia_tracking_table.png" />
+<p><strong>One-to-one ROI matching:</strong>
+- Matching should be one-to-one.
+- Avoid one primary ROI matching multiple secondary ROIs, or vice versa.</p>
+</section>
+<section id="image-registration">
+<h2>Image Registration<a class="headerlink" href="#image-registration" title="Link to this heading"></a></h2>
+<p id="id1"><strong>Image Registration:</strong>
+- Supports manual ROI matching.
+- Due to image drifting noise, ROI matching can be challenging.
+- This section uses <a class="reference external" href="https://github.com/InsightSoftwareConsortium/ITKElastix">ITKElastix</a> to register the secondary (moving) image to the primary (fixed) image based on the background image.
+- The resulting transformation is applied to the ROIs, enabling efficient overlay of primary and secondary ROIs.
+- The application supports three types of image transformation: <strong>Rigid</strong>, <strong>Affine</strong>, and <strong>B-Spline</strong>.</p>
+<p><strong>Performance Comparison:</strong></p>
+<blockquote>
+<div></div></blockquote>
+<ul class="simple">
+<li><p>First, set the <strong>Elastix method</strong> and then the <strong>reference channel</strong> (if the stack is from single-channel imaging, leave it as is).</p></li>
+<li><p>The Elastix configuration can be customized using <strong>Elastix Config</strong>.</p></li>
+<li><p>Click <strong>Run Elastix</strong> and wait until registration is complete. You can monitor progress on the Anaconda Prompt.</p></li>
+</ul>
+<img alt="Image Registration" src="_images/microglia_tracking_image_registration.png" />
+<ul class="simple">
+<li><p><strong>Elastix Image Registration Config Window:</strong></p></li>
+</ul>
+<img alt="Elastix Config Window" src="_static/images/microglia_tracking/suite2p_roi_tracking_elastix_config.png" />
+</section>
+<section id="automatic-roi-matching">
+<h2>Automatic ROI Matching<a class="headerlink" href="#automatic-roi-matching" title="Link to this heading"></a></h2>
+<p id="id2"><strong>Automatic ROI Matching:</strong>
+- Automatic ROI matching is available to reduce manual effort.
+- Often, the number of ROI pairs exceeds 100, making manual matching time-consuming.
+- Combining automatic matching with manual corrections yields highly efficient and accurate ROI tracking.
+- Typical workflow:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Perform ROI classification with Suite2pROICheck.</p></li>
+<li><p>Apply automatic ROI matching for specific cell types.</p></li>
+<li><p>Manually adjust matches to ensure accuracy.</p></li>
+<li><p>Utilize image registration support when necessary.</p></li>
+</ol>
+</div></blockquote>
+<ul>
+<li><p><strong>Parameters for Optimal Transport:</strong>
+- <strong>Loss:</strong> Options include <strong>WD (Wasserstein Distance)-shape</strong>, <strong>WD-distance</strong>, <strong>GWD (Gromov-Wasserstein Distance)</strong>, and</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/tvayer/FGW/tree/master">FGWD (Fused Gromov-Wasserstein Distance)</a>. The WD-distance exponent controls distance weighting (higher values discourage long-distance matching), and the FGWD alpha parameter balances ROI shape similarity with distance penalty.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>Pruning ROI Matching:</strong> A two-step process:
+1. <strong>Minimum transport value pruning:</strong> Eliminates ROI pairs with a transport value below a threshold (“Min transport threshold”).
+2. <strong>Maximum transport cost pruning:</strong> If the transport cost exceeds a threshold (“Max cost threshold”), the primary ROI is considered unmatched.</p></li>
+</ul>
+</li>
+<li><p><strong>ROI Matching Test Window:</strong>
+- Provides a visual preview of optimal transport patterns between primary and secondary ROIs.
+- <strong>Red dots:</strong> Centers of primary ROIs.
+- <strong>Blue dots:</strong> Centers of secondary ROIs.
+- <strong>Green lines:</strong> Indicate ROI matching between primary and secondary.
+- The transport plan is represented as a (source samples) × (destination samples) matrix; the initial matching is multi-to-multi. Users can enable the “Plot Transport Plan” option to view the complete matrix before pruning.</p></li>
+<li><p><strong>Save/Load ROI Tracking Result:</strong>
+- The ROI matching results are saved as <strong>ROITracking.mat</strong> files, each containing tracking data between two imaging sessions.
+- For tracking across three or more sessions, create separate ROITracking files for each session pair.
+- For downstream analysis using these tracking results, please refer to the provided <a class="reference external" href="https://github.com/dhino2000/optic">Jupyter notebooks</a>.</p></li>
+</ul>
+<img alt="Automatic ROI Matching" src="_images/microglia_tracking_optimal_transport.png" />
+<ul class="simple">
+<li><p><strong>ROI Matching Test Window:</strong></p></li>
+</ul>
+<img alt="ROI Matching Test Window" src="_static/images/microglia_tracking/suite2p_roi_tracking_roi_matching_test.png" />
+</section>
+<section id="roi-manager">
+<h2>ROI Manager<a class="headerlink" href="#roi-manager" title="Link to this heading"></a></h2>
+<p><strong>ROI Manager:</strong>
+- <strong>Save/Load ROI:</strong> Save or load ROI data.
+- <strong>Save/Load Mask:</strong> The exported mask file from Cellpose, <code class="docutils literal notranslate"><span class="pre">seg.npy</span></code>, can be loaded and exported. The mask file must be generated using <strong>Zstack mode</strong>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Suite2pROITracking.html" class="btn btn-neutral float-left" title="Suite2pROITracking Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

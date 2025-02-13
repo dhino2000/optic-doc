@@ -1,0 +1,340 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suite2pROITracking Tutorial &mdash; OPTIC 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="MicrogliaTracking Tutorial" href="MicrogliaTracking.html" />
+    <link rel="prev" title="Suite2pROICuration Tutorial" href="Suite2pROICuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            OPTIC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Overview.html">Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">How To Install</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Applications:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="Suite2pROICuration.html">Suite2pROICuration Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Suite2pROITracking Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#workflow">Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-fall-mat-file">Load Fall.mat file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#application-interface">Application Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pri-view-section">Pri View Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pri-table-section">Pri Table Section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#image-registration">Image Registration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatic-roi-matching">Automatic ROI Matching</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="MicrogliaTracking.html">MicrogliaTracking Tutorial</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">OPTIC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Suite2pROITracking Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Suite2pROITracking.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="suite2proitracking-tutorial">
+<h1>Suite2pROITracking Tutorial<a class="headerlink" href="#suite2proitracking-tutorial" title="Link to this heading"></a></h1>
+<img alt="Suite2pROITracking" src="_images/suite2p_roi_tracking.png" />
+<p><strong>Suite2pROITracking</strong> is an application developed for efficiently tracking ROIs between different imaging sessions of the same subject. These ROI correspondence relationships are saved as <code class="docutils literal notranslate"><span class="pre">.mat</span></code> files to facilitate downstream analysis. Since this application depends on analysis results from
+<a class="reference external" href="https://github.com/dhino2000/optic/edit/main/docs/Suite2pROICheck/tutorial.md">Suite2pROICheck</a>,
+it is recommended to first perform ROI check.</p>
+<section id="workflow">
+<h2>Workflow<a class="headerlink" href="#workflow" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Load Fall.mat</strong></p></li>
+<li><p><strong>Load ROICheck.mat</strong></p></li>
+<li><p><strong>Image registration</strong> (see <a class="reference internal" href="MicrogliaTracking.html#id1"><span class="std std-ref">Automatic ROI Matching</span></a>)</p></li>
+<li><p><strong>Auto ROI tracking</strong> (see <a class="reference internal" href="MicrogliaTracking.html#id2"><span class="std std-ref">ROI Manager</span></a>)</p></li>
+<li><p><strong>Check ROI tracking manually</strong></p></li>
+<li><p><strong>Save ROITracking.mat file</strong></p></li>
+</ol>
+</section>
+<section id="input">
+<h2>Input<a class="headerlink" href="#input" title="Link to this heading"></a></h2>
+<p>Before using this application, please prepare <strong>Fall.mat</strong> and <strong>ROICheck.mat</strong> (the result of ROI check).</p>
+<ul class="simple">
+<li><p><strong>(Required):</strong> Two Fall.mat files and two ROICheck.mat files</p></li>
+</ul>
+</section>
+<section id="output">
+<h2>Output<a class="headerlink" href="#output" title="Link to this heading"></a></h2>
+<p>The result of ROI tracking is exported as <strong>ROITracking~.mat</strong>:</p>
+<ul class="simple">
+<li><p><strong>ROITracking_{name_of_the_primary_Fall_file}.mat</strong></p></li>
+</ul>
+</section>
+<section id="load-fall-mat-file">
+<h2>Load Fall.mat file<a class="headerlink" href="#load-fall-mat-file" title="Link to this heading"></a></h2>
+<img alt="Load Fall.mat file" src="_images/suite2p_roi_tracking_file_load.png" />
+<p><strong>Fall mat file path (Required):</strong></p>
+<blockquote>
+<div><p>Push the “browse” button and choose the <strong>Fall.mat</strong> file. Suite2pROITracking requires two Fall.mat files — one primary (pri) and one secondary (sec). The primary file serves as the reference for determining which ROIs in the primary correspond to those in the secondary.</p>
+</div></blockquote>
+</section>
+<section id="application-interface">
+<h2>Application Interface<a class="headerlink" href="#application-interface" title="Link to this heading"></a></h2>
+<img alt="Suite2pROITracking Interface" src="_images/suite2p_roi_tracking_legend.png" />
+<p><strong>Suite2pROITracking</strong> consists of two major sections, <strong>primary (pri)</strong> and <strong>secondary (sec)</strong>, each subdivided into <strong>View</strong> and <strong>Table</strong> sections. The secondary view and table function similarly to those in Suite2pROICheck.</p>
+</section>
+<section id="pri-view-section">
+<h2>Pri View Section<a class="headerlink" href="#pri-view-section" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>View</strong></p></li>
+</ul>
+<p>Displays ROIs from the Fall.mat file with the selected ROI highlighted.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If <strong>Match_Cell_ID</strong> is filled, a white line is drawn between the primary ROI and the corresponding secondary ROI.</p></li>
+<li><p><strong>Mouse actions:</strong></p></li>
+<li><p><strong>Left click:</strong> Choose the closest ROI after applying skip conditions.</p></li>
+<li><p><strong>Right click (primary view only):</strong> Choose the closest ROI from the secondary view after applying skip conditions.</p></li>
+</ul>
+</div></blockquote>
+<img alt="Primary View Section" src="_images/suite2p_roi_tracking_view_pri.png" />
+<p>Additionally, the ROI properties (derived from the
+<a class="reference external" href="https://suite2p.readthedocs.io/en/latest/outputs.html">Suite2p documentation</a>) include:</p>
+<ul class="simple">
+<li><p><strong>med:</strong> (y,x) center of cell</p></li>
+<li><p><strong>npix:</strong> Number of pixels in ROI</p></li>
+<li><p><strong>npix_soma:</strong> Number of pixels in ROI’s soma</p></li>
+<li><p><strong>radius:</strong> Estimated radius from a 2D Gaussian fit to the mask</p></li>
+<li><p><strong>aspect_ratio:</strong> Ratio between major and minor axes of the 2D Gaussian fit</p></li>
+<li><p><strong>compact:</strong> How compact the ROI is (1 for a disk; &gt;1 means less compact)</p></li>
+<li><p><strong>solidity:</strong> Possibly similar to compact</p></li>
+<li><p><strong>footprint:</strong> Spatial extent of the ROI’s functional signal (using a 1/5 threshold of the max and averaging distances from the center)</p></li>
+<li><p><strong>skew:</strong> Skewness of the neuropil-corrected fluorescence trace</p></li>
+<li><p><strong>std:</strong> Standard deviation of the neuropil-corrected fluorescence trace</p></li>
+</ul>
+<p>Other settings in the Pri View Section include:</p>
+<ul class="simple">
+<li><p><strong>ROI Display Setting:</strong> Options to display all ROIs, none, or only specific cell types.</p></li>
+<li><p><strong>Background Image Display Setting:</strong> Switch among background images (<strong>meanImg</strong>, <strong>meanImgE</strong>, <strong>max_proj</strong>, <strong>Vcorr</strong>).</p></li>
+<li><p><strong>Skip ROIs with choosing:</strong> Skip ROIs already sorted (e.g., skip <strong>Neuron</strong> when focusing on <strong>Astrocyte</strong> and <strong>Not_Cell</strong>).</p></li>
+<li><p><strong>Image Contrast:</strong>
+- <strong>Green:</strong> Contrast of primary background image.
+- <strong>Red:</strong> Contrast of secondary background image (if available).
+- <strong>Blue:</strong> Display of secondary ROIs (only those of the cell type set in the display settings).</p></li>
+<li><p><strong>ROI Opacity:</strong> Adjust the opacity for all or the selected ROI via sliders.</p></li>
+</ul>
+</section>
+<section id="pri-table-section">
+<h2>Pri Table Section<a class="headerlink" href="#pri-table-section" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Cell_ID_Match</strong></p>
+<ul>
+<li><p>The table includes an additional column <strong>Cell_ID_Match</strong> showing the secondary ROI ID matched to the primary ROI.</p></li>
+<li><p><strong>WARNING:</strong> Ensure table columns match those in the ROICheck file before loading.</p></li>
+<li><p>Initially blank; when filled, a white line appears in the View indicating the match.</p></li>
+<li><p>The value must be an integer between 0 and the maximum ROI number in the secondary file.</p></li>
+<li><p>Typically, matching is performed for neurons.</p></li>
+</ul>
+</li>
+</ul>
+<img alt="Primary Table Section" src="_images/suite2p_roi_tracking_table_pri.png" />
+<ul>
+<li><p><strong>One-to-one ROI Matching:</strong></p>
+<p>Matching should be one-to-one; avoid one primary ROI matching multiple secondary ROIs or vice versa.</p>
+</li>
+</ul>
+</section>
+<section id="image-registration">
+<h2>Image Registration<a class="headerlink" href="#image-registration" title="Link to this heading"></a></h2>
+<p id="id1"><strong>Image registration</strong> supports manual ROI matching. Due to image drift between sessions, ROI matching can be challenging. This section uses
+<a class="reference external" href="https://github.com/InsightSoftwareConsortium/ITKElastix">ITKElastix</a> to register the secondary (moving) image to the primary (fixed) image based on the background, and applies the transformation to the ROIs, enabling efficient overlay of primary and secondary ROIs.</p>
+<p>This application offers three types of image transformations:</p>
+<ul class="simple">
+<li><p><strong>Rigid</strong></p></li>
+<li><p><strong>Affine</strong></p></li>
+<li><p><strong>B-Spline</strong></p></li>
+</ul>
+<p><strong>Performance Comparison:</strong></p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p><strong>Rigid</strong></p></th>
+<th class="head"><p><strong>Affine</strong></p></th>
+<th class="head"><p><strong>B-Spline</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Computation Speed</strong></p></td>
+<td><p>0.5 ~ 1 sec/image</p></td>
+<td><p>1 ~ 2 sec/image</p></td>
+<td><p>2 ~ 4 sec/image</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Degrees of Freedom</strong></p></td>
+<td><p>Moderate</p></td>
+<td><p>Good</p></td>
+<td><p>Excellent</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Shape Preservation</strong></p></td>
+<td><p>Excellent</p></td>
+<td><p>Good</p></td>
+<td><p>Moderate</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Robustness</strong></p></td>
+<td><p>Good</p></td>
+<td><p>Good</p></td>
+<td><p>Good</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Local Deformation</strong></p></td>
+<td><p>Poor</p></td>
+<td><p>Poor</p></td>
+<td><p>Excellent</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Motion Correction</strong></p></td>
+<td><p>Poor</p></td>
+<td><p>Moderate</p></td>
+<td><p>Excellent</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Registration Accuracy</strong></p></td>
+<td><p>Moderate</p></td>
+<td><p>Good</p></td>
+<td><p>Excellent</p></td>
+</tr>
+</tbody>
+</table>
+<p>First, set the <strong>Elastix method</strong> and then the <strong>reference channel</strong> (if the Fall.mat is from single-channel imaging, leave as is). The configuration for the Elastix transformation can be customized using <strong>Elastix Config</strong>. Click <strong>Run Elastix</strong> and wait until registration completes; progress can be monitored in the Anaconda Prompt.</p>
+<img alt="Image Registration" src="_images/suite2p_roi_tracking_image_registration.png" />
+<ul>
+<li><p><strong>Elastix Image Registration Config Window:</strong></p>
+<img alt="Elastix Config Window" src="_images/suite2p_roi_tracking_elastix_config.png" />
+</li>
+</ul>
+</section>
+<section id="automatic-roi-matching">
+<h2>Automatic ROI Matching<a class="headerlink" href="#automatic-roi-matching" title="Link to this heading"></a></h2>
+<p id="id2"><strong>Automatic ROI Matching</strong> is available to further reduce manual effort. Often, the number of ROI pairs exceeds 100, making manual matching time-consuming even with image registration. Combining automatic matching with manual corrections yields efficient and accurate ROI tracking.</p>
+<p>The typical workflow for ROI tracking involves:</p>
+<ol class="arabic simple">
+<li><p>Performing ROI classification with Suite2pROICheck.</p></li>
+<li><p>Applying automatic ROI matching for specific cell types.</p></li>
+<li><p>Manually adjusting to ensure accurate matching.</p></li>
+<li><p>Optionally, utilizing image registration support to improve results.</p></li>
+</ol>
+<p><strong>Parameters for Optimal Transport:</strong></p>
+<ul>
+<li><p><strong>Loss:</strong></p>
+<p>Options include <strong>WD (Wasserstein Distance)-shape</strong>, <strong>WD-distance</strong>, <strong>GWD (Gromov-Wasserstein Distance)</strong>, and
+<a class="reference external" href="https://github.com/tvayer/FGW/tree/master">FGWD (Fused Gromov-Wasserstein Distance)</a>.
+The WD-distance exponent controls distance weighting during matching (higher values discourage long-distance matches). The FGWD alpha parameter balances ROI shape similarity with distance penalty.</p>
+</li>
+<li><p><strong>Pruning ROI Matching:</strong></p>
+<p>A two-step pruning process is applied:</p>
+<ol class="arabic simple">
+<li><p><strong>Minimum transport value pruning:</strong> Eliminates ROI pairs with a transport value below a threshold (“Min transport threshold”).</p></li>
+<li><p><strong>Maximum transport cost pruning:</strong> If the transport cost exceeds a threshold (“Max cost threshold”), the primary ROI is considered unmatched.</p></li>
+</ol>
+</li>
+</ul>
+<p><strong>ROI Matching Test Window:</strong></p>
+<p>Provides a visual preview of the optimal transport patterns between primary and secondary ROIs:</p>
+<ul class="simple">
+<li><p><strong>Red dots:</strong> Centers of primary ROIs.</p></li>
+<li><p><strong>Blue dots:</strong> Centers of secondary ROIs.</p></li>
+<li><p><strong>Green lines:</strong> Indicate ROI matching between primary and secondary.</p></li>
+</ul>
+<p>The transport plan is represented as a matrix (source samples × destination samples); thus, the initial matching is multi-to-multi. Users can enable the “Plot Transport Plan” option to view the complete matrix before pruning.</p>
+<p><strong>Save/Load ROI Tracking Result:</strong></p>
+<p>The ROI matching results are saved as <strong>ROITracking.mat</strong> files, each containing tracking data between two imaging sessions. For tracking across three or more sessions, create separate ROITracking files for each session pair. For downstream analysis using these tracking results, please refer to the provided <a class="reference external" href="https://github.com/dhino2000/optic">Jupyter notebooks</a>.</p>
+<img alt="ROI Matching Visualization" src="_images/suite2p_roi_tracking_roi_matching.png" />
+<ul>
+<li><p><strong>ROI Matching Test Window:</strong></p>
+<img alt="ROI Matching Test Window" src="_images/suite2p_roi_tracking_roi_matching_test.png" />
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Suite2pROICuration.html" class="btn btn-neutral float-left" title="Suite2pROICuration Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="MicrogliaTracking.html" class="btn btn-neutral float-right" title="MicrogliaTracking Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
