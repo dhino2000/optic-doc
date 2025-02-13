@@ -171,3 +171,4 @@ cython_debug/
 .pypirc
 
 _build/*
+docs/_build/*
