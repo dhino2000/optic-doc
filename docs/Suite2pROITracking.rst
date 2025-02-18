@@ -170,16 +170,17 @@ The typical workflow for ROI tracking involves:
 
 - **Loss:**
   
-  Options include **WD (Wasserstein Distance)-shape**, **WD-distance**, **GWD (Gromov-Wasserstein Distance)**, and
-  `FGWD (Fused Gromov-Wasserstein Distance) <https://github.com/tvayer/FGW/tree/master>`_.  
-  The WD-distance exponent controls distance weighting during matching (higher values discourage long-distance matches). The FGWD alpha parameter balances ROI shape similarity with distance penalty.
+    Options include **OT (Optimal Transport)**, **OT_partial**, **OT_entropic**, and **OT_lagrange**. 
+    For details on these losses, please refer to `Python Optimal Transport <https://pythonot.github.io/index.html>`_.
+    The optimal transport method utilizes the distance matrix of ROIs between planes.  
 
-- **Pruning ROI Matching:**
-
-  A two-step pruning process is applied:
+- **Optimal Transport Parameters**
   
-  1. **Minimum transport value pruning:** Eliminates ROI pairs with a transport value below a threshold ("Min transport threshold").
-  2. **Maximum transport cost pruning:** If the transport cost exceeds a threshold ("Max cost threshold"), the primary ROI is considered unmatched.
+   - **Partial OT mass:** Amount of mass to be transported. Set the value between 0 and 1.
+   - **Partial OT regularization:** Regularization term for OT_entropic and OT_lagrange. Set the value greater than 0.
+   - **OT-distance exponent:** The exponent for the distance matrix.
+   - **Minimum transport value pruning:** Eliminates ROI pairs with a transport value below a threshold ("Min transport threshold").
+   - **Maximum transport cost pruning:** If the transport cost exceeds a threshold ("Max cost threshold"), the primary ROI is considered unmatched.
 
 **ROI Matching Test Window:**
 

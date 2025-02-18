@@ -184,8 +184,8 @@ Automatic ROI Matching
   3. Manually adjust matches to ensure accuracy.
   4. Utilize image registration support when necessary.
 - **Parameters for Optimal Transport:**
-  - **Loss:** Options include **WD (Wasserstein Distance)-shape**, **WD-distance**, **GWD (Gromov-Wasserstein Distance)**, and
-    `FGWD (Fused Gromov-Wasserstein Distance) <https://github.com/tvayer/FGW/tree/master>`_. The WD-distance exponent controls distance weighting (higher values discourage long-distance matching), and the FGWD alpha parameter balances ROI shape similarity with distance penalty.
+  - **Loss:** Options include **OT (Optimal Transport)**, **OT_partial**, **OT_entropic**, and
+    **OT_lagrange**. 
   - **Pruning ROI Matching:** A two-step process:
     1. **Minimum transport value pruning:** Eliminates ROI pairs with a transport value below a threshold ("Min transport threshold").
     2. **Maximum transport cost pruning:** If the transport cost exceeds a threshold ("Max cost threshold"), the primary ROI is considered unmatched.
